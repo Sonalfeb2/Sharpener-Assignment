@@ -1,38 +1,43 @@
 import "./NewMovieForm.css";
 import { useState } from "react";
-const NewMoviesForm = () => {
+const NewMoviesForm = (props) => {
   const [newMovies, setNewMovies] = useState({});
-  const showMovie = (e) =>{
+  const showMovie = e => {
     e.preventDefault();
-    console.log('hi')
-    console.log(newMovies)
-  }
+    console.log(newMovies);
+    props.addMovie(newMovies);
+  };
   return (
-    <div>
-      <label for="title">Title</label>
+    <form onSubmit={showMovie}>
+      <label>Title</label>
       <input
         type="text"
         placeholder="Title"
         onChange={e =>
           setNewMovies(prev => ({ ...prev, title: e.target.value }))}
+        required
       />
 
-      <label for="lname">Opening Text</label>
+      <label>Opening Text</label>
       <input
         type="textarea"
         placeholder="Opening Text"
         onChange={e =>
           setNewMovies(prev => ({ ...prev, openingText: e.target.value }))}
+        required
       />
-      <label for="lname">Release Date</label>
+      <label>Release Date</label>
       <input
         type="date"
         placeholder="Release Date"
         onChange={e =>
           setNewMovies(prev => ({ ...prev, releaseDate: e.target.value }))}
+        required
       />
-      <button onClick = {showMovie}>Submit</button>
-    </div>
+      <button type="submit">
+        Submit
+      </button>
+    </form>
   );
 };
 export default NewMoviesForm;
