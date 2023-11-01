@@ -23,9 +23,9 @@ function App() {
       for (var key in data) {
         loadedData.push({
           id: key,
-          title : data[key].title,
+          title: data[key].title,
           openingText: data[key].openingText,
-          releaseDate : data[key].releaseDate
+          releaseDate: data[key].releaseDate
         });
       }
       setMovies(loadedData);
@@ -53,8 +53,24 @@ function App() {
       }
     );
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     fetchHandler();
+  };
+  const deleteHandler = async id => {
+    try {
+      const response = await fetch(
+        `https://react-http-65919-default-rtdb.firebaseio.com/movies/${id}.json`,
+        {
+          method: "DELETE"
+        }
+      );
+      if (!response.ok) {
+        throw new Error(response);
+      }
+      fetchHandler();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <React.Fragment>
@@ -68,7 +84,7 @@ function App() {
         {!isloading &&
           movies.length > 0 &&
           !error &&
-          <MoviesList movies={movies} />}
+          <MoviesList movies={movies} deleteHandler={deleteHandler} />}
         {!isloading &&
           movies.length === 0 &&
           !error &&
